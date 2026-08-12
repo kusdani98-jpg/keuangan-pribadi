@@ -36,16 +36,16 @@
     .animate-loader-icon { animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
     .animate-spin-orbit { animation: spin-orbit 3s linear infinite; }
 
-    /* Entrance Animations Physics (Cascade) */
-    .stagger-entrance {
+    /* Scroll Reveal Animations (Intersection Observer) */
+    .reveal-on-scroll {
       opacity: 0;
-      transform: translateY(35px) scale(0.95) rotateX(-10deg);
+      transform: translateY(40px) scale(0.96);
       transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
     }
-    .stagger-entrance.is-visible {
+    .reveal-on-scroll.is-revealed {
       opacity: 1;
-      transform: translateY(0) scale(1) rotateX(0deg);
+      transform: translateY(0) scale(1);
     }
 
     /* Mesh Blob Rotation */
@@ -98,12 +98,10 @@
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans min-h-screen p-4 md:p-8 relative overflow-x-hidden selection:bg-blue-500 selection:text-white flex flex-col justify-between">
 
-  <!-- ================= PRELOADER EKSKLUSIF (Refresh Animation) ================= -->
+  <!-- ================= PRELOADER EKSKLUSIF ================= -->
   <div id="preloader" class="fixed inset-0 z-50 bg-slate-950 flex flex-col items-center justify-center transition-all duration-700 ease-in-out">
     <div class="relative flex items-center justify-center">
-      <!-- Outer Orbit Ring -->
       <div class="w-28 h-28 border-2 border-dashed border-blue-500/40 rounded-full animate-spin-orbit"></div>
-      <!-- Glow Icon -->
       <div class="absolute p-5 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 text-white rounded-3xl shadow-2xl shadow-blue-500/50 animate-loader-icon">
         <i data-lucide="wallet" class="w-10 h-10"></i>
       </div>
@@ -135,7 +133,7 @@
 
   <div class="max-w-5xl mx-auto space-y-8 relative z-10 w-full mb-12">
     <!-- Header -->
-    <header class="stagger-entrance flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800/80 pb-6 gap-4">
+    <header class="reveal-on-scroll flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800/80 pb-6 gap-4">
       <div>
         <div class="flex items-center gap-3.5">
           <div class="p-3.5 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 text-white rounded-2xl shadow-xl shadow-blue-500/25 hover:rotate-12 hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer">
@@ -158,10 +156,10 @@
       </div>
     </header>
 
-    <!-- Cards Ringkasan Saldo -->
-    <div class="stagger-entrance grid grid-cols-1 md:grid-cols-3 gap-5">
+    <!-- Cards Ringkasan Saldo (Staggered Animation) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <!-- Total Pemasukan -->
-      <div class="card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-emerald-500/10 transition-all duration-500">
+      <div class="reveal-on-scroll card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-emerald-500/50 hover:shadow-emerald-500/10 transition-all duration-500" style="transition-delay: 100ms;">
         <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pemasukan</span>
@@ -173,7 +171,7 @@
       </div>
 
       <!-- Total Pengeluaran -->
-      <div class="card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-rose-500/50 hover:shadow-rose-500/10 transition-all duration-500">
+      <div class="reveal-on-scroll card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-rose-500/50 hover:shadow-rose-500/10 transition-all duration-500" style="transition-delay: 200ms;">
         <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-rose-500/10 rounded-full blur-2xl group-hover:bg-rose-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
@@ -185,7 +183,7 @@
       </div>
 
       <!-- Sisa Saldo -->
-      <div class="card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-blue-500/10 transition-all duration-500">
+      <div class="reveal-on-scroll card-shine bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-800/80 shadow-2xl relative group hover:-translate-y-2 hover:border-blue-500/50 hover:shadow-blue-500/10 transition-all duration-500" style="transition-delay: 300ms;">
         <div class="absolute -right-6 -bottom-6 w-28 h-28 bg-blue-500/10 rounded-full blur-2xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sisa Saldo</span>
@@ -198,7 +196,7 @@
     </div>
 
     <!-- Form Tambah Transaksi -->
-    <div class="stagger-entrance bg-slate-900/60 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-slate-800/80 shadow-2xl transition-all hover:border-slate-700">
+    <div class="reveal-on-scroll bg-slate-900/60 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-slate-800/80 shadow-2xl transition-all hover:border-slate-700">
       <div class="flex items-center gap-2.5 mb-6">
         <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
           <i data-lucide="plus-circle" class="w-5 h-5"></i>
@@ -251,7 +249,6 @@
           </div>
         </div>
 
-        <!-- Tombol Simpan -->
         <div class="md:col-span-2 pt-2">
           <button type="submit" class="relative w-full overflow-hidden bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 active:scale-[0.98] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 text-sm group">
             <div class="absolute inset-0 w-1/2 h-full bg-white/20 -skew-x-12 -translate-x-full animate-shimmer"></div>
@@ -263,7 +260,7 @@
     </div>
 
     <!-- Tabel Riwayat Transaksi -->
-    <div class="stagger-entrance bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-slate-800/80 shadow-2xl overflow-hidden">
+    <div class="reveal-on-scroll bg-slate-900/60 backdrop-blur-xl rounded-2xl border border-slate-800/80 shadow-2xl overflow-hidden">
       <div class="p-6 border-b border-slate-800/80 flex justify-between items-center">
         <div class="flex items-center gap-2.5">
           <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
@@ -292,8 +289,8 @@
     </div>
   </div>
 
-  <!-- Footer Keterangan Pembuat -->
-  <footer class="stagger-entrance relative z-10 border-t border-slate-800/80 pt-6 pb-4 text-center text-xs text-slate-400 max-w-5xl mx-auto w-full">
+  <!-- Footer -->
+  <footer class="reveal-on-scroll relative z-10 border-t border-slate-800/80 pt-6 pb-4 text-center text-xs text-slate-400 max-w-5xl mx-auto w-full">
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 px-2">
       <p class="flex items-center gap-1.5 font-medium">
         Dibuat dengan <i data-lucide="heart" class="w-3.5 h-3.5 text-rose-500 fill-rose-500/20 animate-pulse"></i> oleh 
@@ -317,45 +314,57 @@
     // Initial Lucide Icons Render
     lucide.createIcons();
 
-    // Mouse Parallax Effect on Ambient Background
+    // Mouse Parallax Effect
     window.addEventListener('mousemove', (e) => {
       const x = (e.clientX / window.innerWidth - 0.5) * 20;
       const y = (e.clientY / window.innerHeight - 0.5) * 20;
       document.getElementById('ambient-blobs').style.transform = `translate(${x}px, ${y}px)`;
     });
 
+    // Intersection Observer untuk Scroll Animation
+    const observerOptions = {
+      root: null,
+      threshold: 0.15,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const scrollObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target); // Hanya munculkan sekali
+        }
+      });
+    }, observerOptions);
+
+    function initScrollAnimations() {
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      revealElements.forEach(el => scrollObserver.observe(el));
+    }
+
     // Refresh & Preloader Animation Sequence
     window.addEventListener('load', () => {
       const progressBar = document.getElementById('loader-progress');
       const preloader = document.getElementById('preloader');
       
-      // Step 1: Fill progress bar
       setTimeout(() => { progressBar.style.width = '100%'; }, 100);
 
-      // Step 2: Hide Preloader
       setTimeout(() => {
         preloader.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
         
-        // Step 3: Trigger Cascade Stagger Entrance Animation
-        const staggerItems = document.querySelectorAll('.stagger-entrance');
-        staggerItems.forEach((item, index) => {
-          setTimeout(() => {
-            item.classList.add('is-visible');
-          }, index * 120);
-        });
+        // Inisialisasi efek animasi scroll setelah preloader hilang
+        initScrollAnimations();
 
-        // Step 4: Remove Preloader from DOM
         setTimeout(() => { preloader.style.display = 'none'; }, 700);
-
       }, 1000);
     });
 
-    // Format angka ke Rupiah
+    // Format Rupiah
     const formatRupiah = (number) => {
       return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(number);
     };
 
-    // Format tanggal dan jam (WIB)
+    // Format WIB
     const formatDateTime = (isoString) => {
       if (!isoString) return '-';
       const date = new Date(isoString);
@@ -368,7 +377,7 @@
       }).format(date) + ' WIB';
     };
 
-    // Smooth Eased Count-Up Number Effect
+    // Eased Count-Up Number Effect
     function animateValue(elementId, start, end, duration) {
       const obj = document.getElementById(elementId);
       let startTimestamp = null;
@@ -385,7 +394,7 @@
       window.requestAnimationFrame(step);
     }
 
-    // High Impact Confetti Explosion Effect
+    // Confetti Explosion Effect
     function triggerConfetti() {
       const count = 200;
       const defaults = { origin: { y: 0.7 } };
@@ -405,7 +414,7 @@
       fire(0.1, { spread: 120, startVelocity: 45 });
     }
 
-    // Toast Notification Modern
+    // Toast Notification
     function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
@@ -425,7 +434,7 @@
       }, 3500);
     }
 
-    // Auto-select kategori saat jenis transaksi berubah
+    // Auto-select kategori
     function autoSelectCategory() {
       const type = document.getElementById('type').value;
       const categorySelect = document.getElementById('category');
@@ -469,7 +478,7 @@
           const isIncome = item.type === 'income';
           const row = document.createElement('tr');
           row.className = 'hover:bg-slate-800/50 transition-all duration-300 group animate-row-spring';
-          row.style.animationDelay = `${index * 50 + 800}ms`;
+          row.style.animationDelay = `${index * 50 + 200}ms`;
           
           const formattedDate = formatDateTime(item.created_at || item.date);
 
@@ -494,7 +503,7 @@
         });
       }
 
-      // Jalankan Animasi Angka Berjalan Eased
+      // Animasi Angka Berjalan
       animateValue('total-income', 0, totalIncome, 1000);
       animateValue('total-expense', 0, totalExpense, 1000);
       animateValue('total-balance', 0, totalIncome - totalExpense, 1000);
@@ -503,7 +512,7 @@
       lucide.createIcons();
     }
 
-    // Tambah Transaksi Baru
+    // Tambah Transaksi
     document.getElementById('transaction-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       
@@ -547,7 +556,6 @@
       }
     }
 
-    // Jalankan data fetch saat halaman dimuat
     fetchTransactions();
   </script>
 </body>
