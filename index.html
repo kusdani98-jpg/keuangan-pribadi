@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,21 +10,34 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- AOS (Animate On Scroll) Library CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  
+  <style>
+    /* Custom Keyframe Animations */
+    @keyframes pulse-subtle {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.03); opacity: 1; }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 3s infinite ease-in-out;
+    }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 md:p-8">
+<body class="bg-slate-900 text-slate-100 font-sans min-h-screen p-4 md:p-8 overflow-x-hidden">
 
-  <!-- Toast Notification -->
-  <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full opacity-0 transition-all duration-300 bg-emerald-500 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-medium">
-    <i data-lucide="check-circle" class="w-5 h-5"></i>
+  <!-- Toast Notification dengan Animasi Slide -->
+  <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full opacity-0 transition-all duration-500 ease-out bg-emerald-500 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium">
+    <i data-lucide="check-circle" class="w-5 h-5 animate-bounce"></i>
     <span id="toast-message">Berhasil disimpan!</span>
   </div>
 
   <div class="max-w-5xl mx-auto space-y-8">
-    <!-- Header -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-4">
+    <!-- Header dengan Animasi Fade Down -->
+    <header data-aos="fade-down" data-aos-duration="800" class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-800 pb-6 gap-4">
       <div>
         <div class="flex items-center gap-3">
-          <div class="p-2.5 bg-blue-600/20 text-blue-400 rounded-xl border border-blue-500/30">
+          <div class="p-2.5 bg-blue-600/20 text-blue-400 rounded-xl border border-blue-500/30 shadow-lg shadow-blue-500/10 hover:scale-110 transition-transform duration-300">
             <i data-lucide="wallet" class="w-7 h-7"></i>
           </div>
           <div>
@@ -33,20 +46,24 @@
           </div>
         </div>
       </div>
-      <div class="flex items-center gap-2 text-xs font-semibold bg-slate-800/80 border border-slate-700/60 px-3.5 py-2 rounded-full text-slate-300 self-start md:self-auto">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <div class="flex items-center gap-2 text-xs font-semibold bg-slate-800/80 border border-slate-700/60 px-3.5 py-2 rounded-full text-slate-300 self-start md:self-auto shadow-sm">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+        </span>
         Database Terhubung
       </div>
     </header>
 
-    <!-- Cards Ringkasan Saldo -->
+    <!-- Cards Ringkasan Saldo dengan Animasi Staggered Up -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
       <!-- Total Pemasukan -->
-      <div class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:border-emerald-500/50 transition-all">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-all"></div>
+      <div data-aos="fade-up" data-aos-delay="100" data-aos-duration="700" 
+           class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:-translate-y-1.5 hover:border-emerald-500/50 hover:shadow-emerald-500/10 transition-all duration-300">
+        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pemasukan</span>
-          <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg">
+          <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg group-hover:rotate-12 transition-transform duration-300">
             <i data-lucide="arrow-down-left" class="w-5 h-5"></i>
           </div>
         </div>
@@ -54,11 +71,12 @@
       </div>
 
       <!-- Total Pengeluaran -->
-      <div class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:border-rose-500/50 transition-all">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-rose-500/10 rounded-full blur-xl group-hover:bg-rose-500/20 transition-all"></div>
+      <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="700" 
+           class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:-translate-y-1.5 hover:border-rose-500/50 hover:shadow-rose-500/10 transition-all duration-300">
+        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-rose-500/10 rounded-full blur-xl group-hover:bg-rose-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Total Pengeluaran</span>
-          <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg">
+          <div class="p-2 bg-rose-500/10 text-rose-400 rounded-lg group-hover:-rotate-12 transition-transform duration-300">
             <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
           </div>
         </div>
@@ -66,11 +84,12 @@
       </div>
 
       <!-- Sisa Saldo -->
-      <div class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:border-blue-500/50 transition-all">
-        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition-all"></div>
+      <div data-aos="fade-up" data-aos-delay="300" data-aos-duration="700" 
+           class="bg-slate-800/60 backdrop-blur-xl p-6 rounded-2xl border border-slate-700/50 shadow-xl relative overflow-hidden group hover:-translate-y-1.5 hover:border-blue-500/50 hover:shadow-blue-500/10 transition-all duration-300">
+        <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/30 transition-all duration-500"></div>
         <div class="flex items-center justify-between mb-3">
           <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Sisa Saldo</span>
-          <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg">
+          <div class="p-2 bg-blue-500/10 text-blue-400 rounded-lg group-hover:scale-110 transition-transform duration-300">
             <i data-lucide="scale" class="w-5 h-5"></i>
           </div>
         </div>
@@ -79,34 +98,35 @@
     </div>
 
     <!-- Form Tambah Transaksi -->
-    <div class="bg-slate-800/60 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-slate-700/50 shadow-xl">
+    <div data-aos="fade-up" data-aos-delay="400" data-aos-duration="800" 
+         class="bg-slate-800/60 backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-slate-700/50 shadow-xl transition-all hover:border-slate-600/60">
       <div class="flex items-center gap-2 mb-6">
-        <i data-lucide="plus-circle" class="w-5 h-5 text-blue-400"></i>
+        <i data-lucide="plus-circle" class="w-5 h-5 text-blue-400 animate-spin-slow"></i>
         <h2 class="text-lg font-bold text-white">Tambah Transaksi Baru</h2>
       </div>
 
       <form id="transaction-form" class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">Keterangan Transaksi</label>
-          <div class="relative">
-            <i data-lucide="file-text" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
-            <input type="text" id="title" required placeholder="Contoh: Nasi Goreng, Bensin, Gaji" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all">
+          <div class="relative group">
+            <i data-lucide="file-text" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500 group-focus-within:text-blue-400 transition-colors"></i>
+            <input type="text" id="title" required placeholder="Contoh: Nasi Goreng, Bensin, Gaji" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-300">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">Jumlah (Rp)</label>
-          <div class="relative">
-            <span class="absolute left-3.5 top-2.5 text-sm font-bold text-slate-500">Rp</span>
-            <input type="number" id="amount" required placeholder="50000" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all">
+          <div class="relative group">
+            <span class="absolute left-3.5 top-2.5 text-sm font-bold text-slate-500 group-focus-within:text-blue-400 transition-colors">Rp</span>
+            <input type="number" id="amount" required placeholder="50000" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-300">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">Jenis Transaksi</label>
-          <div class="relative">
-            <i data-lucide="arrow-left-right" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
-            <select id="type" onchange="autoSelectCategory()" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none cursor-pointer">
+          <div class="relative group">
+            <i data-lucide="arrow-left-right" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500 group-focus-within:text-blue-400 transition-colors"></i>
+            <select id="type" onchange="autoSelectCategory()" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-300 appearance-none cursor-pointer">
               <option value="expense">Pengeluaran</option>
               <option value="income">Pemasukan</option>
             </select>
@@ -115,9 +135,9 @@
 
         <div>
           <label class="block text-xs font-semibold text-slate-300 mb-2 uppercase tracking-wider">Kategori</label>
-          <div class="relative">
-            <i data-lucide="tag" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500"></i>
-            <select id="category" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none cursor-pointer">
+          <div class="relative group">
+            <i data-lucide="tag" class="w-4 h-4 absolute left-3.5 top-3.5 text-slate-500 group-focus-within:text-blue-400 transition-colors"></i>
+            <select id="category" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-100 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-300 appearance-none cursor-pointer">
               <option value="Makanan & Minuman">Makanan & Minuman</option>
               <option value="Transportasi">Transportasi</option>
               <option value="Belanja">Belanja</option>
@@ -131,8 +151,8 @@
         </div>
 
         <div class="md:col-span-2 pt-2">
-          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.99] text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 text-sm">
-            <i data-lucide="save" class="w-4 h-4"></i>
+          <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 active:scale-95 text-white font-semibold py-3 rounded-xl transition-all duration-300 shadow-lg shadow-blue-600/25 flex items-center justify-center gap-2 text-sm group">
+            <i data-lucide="save" class="w-4 h-4 group-hover:scale-125 transition-transform duration-300"></i>
             Simpan Transaksi
           </button>
         </div>
@@ -140,7 +160,8 @@
     </div>
 
     <!-- Tabel Riwayat Transaksi -->
-    <div class="bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl overflow-hidden">
+    <div data-aos="fade-up" data-aos-delay="500" data-aos-duration="800" 
+         class="bg-slate-800/60 backdrop-blur-xl rounded-2xl border border-slate-700/50 shadow-xl overflow-hidden">
       <div class="p-6 border-b border-slate-700/50 flex justify-between items-center">
         <div class="flex items-center gap-2">
           <i data-lucide="history" class="w-5 h-5 text-blue-400"></i>
@@ -167,7 +188,15 @@
     </div>
   </div>
 
+  <!-- AOS JS Library -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
   <script>
+    // Inisialisasi AOS (Animate On Scroll)
+    AOS.init({
+      once: true,
+      easing: 'ease-out-cubic'
+    });
+
     // Config Supabase
     const SUPABASE_URL = "https://vvhrununvrxdbmkrwkwe.supabase.co";
     const SUPABASE_ANON_KEY = "sb_publishable_OVISexhBVxrfVIEil0cshw_2A5MgfFP";
@@ -192,19 +221,19 @@
       }).format(date) + ' WIB';
     };
 
-    // Toast Notification Modern
+    // Toast Notification Modern dengan Animasi Slide
     function showToast(message, isError = false) {
       const toast = document.getElementById('toast');
       const toastMessage = document.getElementById('toast-message');
       
       toastMessage.innerText = message;
-      toast.className = `fixed top-5 right-5 z-50 transform transition-all duration-300 px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 text-sm font-medium ${isError ? 'bg-rose-500 text-white' : 'bg-emerald-500 text-white'}`;
+      toast.className = `fixed top-5 right-5 z-50 transform transition-all duration-500 ease-out px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-medium ${isError ? 'bg-rose-500 text-white' : 'bg-emerald-500 text-white'}`;
       
       toast.classList.remove('translate-x-full', 'opacity-0');
       
       setTimeout(() => {
         toast.classList.add('translate-x-full', 'opacity-0');
-      }, 3000);
+      }, 3500);
     }
 
     // Auto-select kategori saat jenis transaksi berubah
@@ -244,21 +273,21 @@
           </tr>
         `;
       } else {
-        data.forEach(item => {
+        data.forEach((item, index) => {
           if (item.type === 'income') totalIncome += Number(item.amount);
           if (item.type === 'expense') totalExpense += Number(item.amount);
 
           const isIncome = item.type === 'income';
           const row = document.createElement('tr');
-          row.className = 'hover:bg-slate-700/30 transition-colors';
+          row.className = 'hover:bg-slate-700/40 transition-all duration-200 group';
           
           const formattedDate = formatDateTime(item.created_at || item.date);
 
           row.innerHTML = `
             <td class="p-4 pl-6 text-slate-400 font-medium whitespace-nowrap">${formattedDate}</td>
-            <td class="p-4 font-semibold text-slate-100">${item.title}</td>
+            <td class="p-4 font-semibold text-slate-100 group-hover:text-blue-400 transition-colors">${item.title}</td>
             <td class="p-4">
-              <span class="bg-slate-700/60 border border-slate-600/50 text-slate-300 px-3 py-1 rounded-full text-xs font-medium">
+              <span class="bg-slate-700/60 border border-slate-600/50 text-slate-300 px-3 py-1 rounded-full text-xs font-medium group-hover:border-slate-500 transition-all">
                 ${item.category}
               </span>
             </td>
@@ -266,7 +295,7 @@
               ${isIncome ? '+' : '-'} ${formatRupiah(item.amount)}
             </td>
             <td class="p-4 text-center pr-6">
-              <button onclick="deleteTransaction('${item.id}')" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all" title="Hapus Transaksi">
+              <button onclick="deleteTransaction('${item.id}')" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all active:scale-90" title="Hapus Transaksi">
                 <i data-lucide="trash-2" class="w-4 h-4"></i>
               </button>
             </td>
